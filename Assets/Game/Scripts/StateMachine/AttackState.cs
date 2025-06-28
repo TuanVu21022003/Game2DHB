@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : Istate
+public class AttackState : IState
 {
     float timer = 0;
     public void OnEnter(Enemy enemy)

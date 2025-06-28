@@ -10,15 +10,15 @@ public class Enemy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject attackArea;
 
     private Character target;
     public Character Target => target;
-    private Istate currentState;
+    private IState currentState;
     private bool isRight = true;
     private void Update()
     {
-        if(currentState !=  null)
+        if(isDead) return;
+        if (currentState !=  null)
         {
             currentState.OnExcute(this);
         }
@@ -40,21 +40,11 @@ public class Enemy : Character
 
     }
 
-    public void EffectDamage()
-    {
-        Instantiate(hitVFX, transform.position, transform.rotation);
-    }
-
-    public void DestroyHit()
-    {
-        Destroy(hitVFX.gameObject);
-    }
+    
 
     public override void OnHit(float damage)
     {
         base.OnHit(damage);
-        EffectDamage();
-        Invoke(nameof(hitVFX), 1f);
     }
 
     public override void OnDeath()
@@ -66,7 +56,7 @@ public class Enemy : Character
 
 
 
-    public void ChangeState(Istate state)
+    public void ChangeState(IState state)
     {
         if(currentState != null)
         {
@@ -102,6 +92,8 @@ public class Enemy : Character
     {
         if(collision.tag == "EnemyWall")
         {
+            ChangeState(new PartrolState());
+            this.target = null;
             ChangeDirection(!isRight);
         }
     }
@@ -144,15 +136,5 @@ public class Enemy : Character
                 ChangeState(new IdleState());
             }
         }
-    }
-
-    public void ActiveAttack()
-    {
-        attackArea.SetActive(true);
-    }
-
-    public void DeActiveAttack()
-    {
-        attackArea.SetActive(false);
     }
 }

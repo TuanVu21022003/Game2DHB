@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartrolState : Istate
+public class PartrolState : IState
 {
     private float timer;
     private float randomTime;

@@ -12,7 +12,8 @@ public class Player : Character
     [SerializeField] private float jumpForce = 400;
     [SerializeField] private Transform kunaiPoint;
     [SerializeField] private Kunai kunaiPrefab;
-    [SerializeField] private GameObject attackArea;
+    
+    [SerializeField] private float kunaiDamage = 10;
     private bool isGrounded;
     private float horizontal;
     private bool isJumping = false;
@@ -32,7 +33,7 @@ public class Player : Character
         isGrounded = CheckGround();
 
         horizontal = Input.GetAxisRaw("Horizontal");
-        if (isDeath)
+        if (isDead)
         {
             return;
         }
@@ -95,8 +96,7 @@ public class Player : Character
         }
         if(Mathf.Abs(horizontal) > 0.1f)
         {
-            
-            rb.linearVelocity = new Vector2(horizontal* Time.deltaTime * speed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(horizontal * speed, rb.linearVelocity.y);
             transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
         }
 
@@ -118,15 +118,9 @@ public class Player : Character
         base.OnDespawn();
         OnInit();
     }
-
-    public void EffectDamage()
-    {
-        Instantiate(hitVFX, transform.position, transform.rotation);
-    }
     public override void OnHit(float damage)
     {
         base.OnHit(damage);
-        Invoke(nameof(EffectDamage), 0.3f);
     }
 
     public override void OnDeath()
@@ -159,7 +153,7 @@ public class Player : Character
         isThrow = true;
         ChangeAnim("throw");
         Invoke(nameof(ResetThrow), 0.4f);
-        Instantiate(kunaiPrefab, kunaiPoint.position, kunaiPoint.rotation);
+        Instantiate(kunaiPrefab, kunaiPoint.position, kunaiPoint.rotation).OnInit(this, kunaiDamage);
     }
 
     private void ResetThrow()
@@ -185,21 +179,11 @@ public class Player : Character
         }
         if(collision.tag == "DeathZone")
         {
-            isDeath = true;
+            hp = 0;
             ChangeAnim("die");
             Debug.Log("Ban da die ");
             Invoke(nameof(OnInit), 1.5f);
         }
-    }
-
-    public void ActiveAttack()
-    {
-        attackArea.SetActive(true);
-    }
-
-    public void DeActiveAttack()
-    {
-        attackArea.SetActive(false);
     }
 
     internal void SavePoint()

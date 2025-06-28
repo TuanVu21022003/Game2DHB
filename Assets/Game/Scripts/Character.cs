@@ -9,8 +9,12 @@ public class Character : MonoBehaviour
     [SerializeField] protected HealthBar healthBar;
     [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected CombatText combatTextPrefab;
+    [SerializeField] protected GameObject attackArea;
+    [SerializeField] protected float damage;
+    public float Damage => damage;
     // Start is called before the first frame update
-    private float hp;
+    protected float hp;
+    private GameObject hitObject;
 
     private string currentAnim;
 
@@ -50,8 +54,33 @@ public class Character : MonoBehaviour
             }
             
             healthBar.SetNewHP(hp);
-            Instantiate(combatTextPrefab, transform.position + Vector3.up, Quaternion.identity).OnInit(damage);
+            Instantiate(combatTextPrefab, transform.position + Vector3.up * 2, Quaternion.identity).OnInit(damage);
+            EffectDamage();
         }
+    }
+
+    public void EffectDamage()
+    {
+        hitObject = Instantiate(hitVFX, transform.position, transform.rotation);
+        Invoke(nameof(DestroyHit), 0.5f);
+    }
+
+    public void DestroyHit()
+    {
+        Destroy(hitObject);
+    }
+
+    public void ActiveAttack()
+    {
+        attackArea.SetActive(true);
+        attackArea.GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void DeActiveAttack()
+    {
+        attackArea.SetActive(false);
+        attackArea.GetComponent<Collider2D>().enabled = false;
+
     }
 
 
