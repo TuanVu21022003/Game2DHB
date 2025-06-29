@@ -81,7 +81,7 @@ public class Enemy : Character
         rb.linearVelocity = Vector2.zero;
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         ChangeAnim("attack");
         ActiveAttack();

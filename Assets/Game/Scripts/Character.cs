@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    [SerializeField] private CharacterType characterType;
     [SerializeField] private Animator anim;
-    [SerializeField] protected HealthBar healthBar;
     [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected CombatText combatTextPrefab;
     [SerializeField] protected GameObject attackArea;
     [SerializeField] protected float damage;
+    [SerializeField] protected float maxHp;
+    [SerializeField] protected HealthBar healthBarPrefab;
     public float Damage => damage;
+    protected HealthBar healthBar;
     // Start is called before the first frame update
     protected float hp;
     private GameObject hitObject;
@@ -26,8 +29,9 @@ public class Character : MonoBehaviour
 
     public virtual void OnInit()
     {
-        hp = 100;
-        healthBar.OnInit(100, transform);
+        healthBar = Instantiate(healthBarPrefab);
+        hp = maxHp;
+        healthBar.OnInit(maxHp, transform, characterType);
     }
 
     public virtual void OnDespawn()
@@ -93,4 +97,10 @@ public class Character : MonoBehaviour
             anim.SetTrigger(currentAnim);
         }
     }
+}
+
+public enum CharacterType
+{
+    Player,
+    Enemy
 }

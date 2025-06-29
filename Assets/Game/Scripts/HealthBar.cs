@@ -18,13 +18,24 @@ public class HealthBar : MonoBehaviour
         transform.position = target.position + offset;
     }
 
-    public void OnInit(float maxhp, Transform target)
+    public void OnInit(float maxhp, Transform target, CharacterType characterType)
     {
         this.target = target;
         this.maxhp = maxhp;
         this.hp = maxhp;
         imageFill.fillAmount = 1;
-        
+        if(characterType == CharacterType.Enemy)
+        {
+            imageFill.color = Color.red;
+        }
+        else if (characterType == CharacterType.Player)
+        {
+            imageFill.color = Color.green;
+        }
+        else
+        {
+            imageFill.color = Color.white;
+        }
     }
 
     public void SetNewHP(float hp)
