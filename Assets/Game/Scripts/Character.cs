@@ -2,14 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IHit
 {
     [SerializeField] private CharacterType characterType;
+    public CharacterType CharacterType => characterType;
     [SerializeField] private Animator anim;
     [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected CombatText combatTextPrefab;
-    [SerializeField] protected GameObject attackArea;
+    
     [SerializeField] protected float damage;
     [SerializeField] protected float maxHp;
     [SerializeField] protected HealthBar healthBarPrefab;
@@ -46,7 +48,7 @@ public class Character : MonoBehaviour
         Invoke(nameof(OnDespawn), 1f);
     }
 
-    public virtual void OnHit(float damage)
+    public virtual void OnHit(float damage, UnityAction<EnemyReward[]> actionDeath)
     {
         if(!isDead)
         {
@@ -72,20 +74,7 @@ public class Character : MonoBehaviour
     public void DestroyHit()
     {
         Destroy(hitObject);
-    }
-
-    public void ActiveAttack()
-    {
-        attackArea.SetActive(true);
-        attackArea.GetComponent<Collider2D>().enabled = true;
-    }
-
-    public void DeActiveAttack()
-    {
-        attackArea.SetActive(false);
-        attackArea.GetComponent<Collider2D>().enabled = false;
-
-    }
+    }  
 
 
     protected void ChangeAnim(string animname)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5564007346596454715}
   - component: {fileID: 474102227946329803}
   - component: {fileID: 1490462011668944538}
-  - component: {fileID: 2325670031852517983}
+  - component: {fileID: 3127089541655227421}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -157,7 +157,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2325670031852517983
+--- !u!114 &3127089541655227421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,20 +166,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1366822359554035561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5833e2df0a572be4ebb25be7308e81bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 63598e56048c44143bf0824feb3c136c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
   anim: {fileID: 6234064381359372328}
   hitVFX: {fileID: 4905656722424055453, guid: d7ec138257f69554c8d0260db4a94d29, type: 3}
   combatTextPrefab: {fileID: 7197259282544986794, guid: 2ef1f2d5d781c644e9b70ed617669e0a, type: 3}
-  attackArea: {fileID: 6561555403816636758}
   damage: 5
   maxHp: 100
   healthBarPrefab: {fileID: 7284295804984542851, guid: 2690faa7ecb4fb84f97d85b30289b1d8, type: 3}
   attackRange: 2
   moveSpeed: 3
   rb: {fileID: 1490462011668944538}
+  rewards:
+  - type: 1
+    amount: 10
+    name: +10
+  timeDelayAttack: 1
+  attackArea: {fileID: 6561555403816636758}
 --- !u!1 &2085068218875816574
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +375,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.105882354}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -465,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e219fcbe7b68a458861378fe754a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 2325670031852517983}
+  enemy: {fileID: 3127089541655227421}
 --- !u!1 &6561555403816636758
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +512,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6561555403816636758}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

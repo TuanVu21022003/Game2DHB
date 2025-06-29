@@ -15,10 +15,15 @@ public class Attack : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" || collision.tag == "Enemy")
+        if (collision.tag == "Enemy")
         {
-            collision.GetComponent<Character>().OnHit(character.Damage);
+            Player player = character as Player;
+            collision.GetComponent<IHit>().OnHit(character.Damage, player.ReceiveEnemyReward);
             
+        }
+        else if (collision.tag == "Player")
+        {
+            collision.GetComponent<IHit>().OnHit(character.Damage);
         }
     }
     

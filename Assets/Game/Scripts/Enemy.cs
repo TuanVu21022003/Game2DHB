@@ -1,23 +1,26 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
 
-public class Enemy : Character
+public class Enemy : Character, IAttacker
 {
-
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
-
-    private Character target;
-    public Character Target => target;
+    [SerializeField] private EnemyReward[] rewards;
+    [SerializeField] public float timeDelayAttack;
     private IState currentState;
     private bool isRight = true;
+
+    public Character Target { get; set; }
+
     private void Update()
     {
-        if(isDead) return;
+        DrawCircleLine(transform.position, attackRange, 50, Color.red, Time.deltaTime);
+        if (isDead) return;
         if (currentState !=  null)
         {
             currentState.OnExcute(this);
@@ -28,7 +31,6 @@ public class Enemy : Character
     {
         base.OnInit();
         this.ChangeState(new IdleState());
-        DeActiveAttack();
     }
 
     public override void OnDespawn()
@@ -42,9 +44,13 @@ public class Enemy : Character
 
     
 
-    public override void OnHit(float damage)
+    public override void OnHit(float damage, UnityAction<EnemyReward[]> actionDeath)
     {
-        base.OnHit(damage);
+        base.OnHit(damage, actionDeath);
+        if(isDead)
+        {
+            actionDeath?.Invoke(rewards);
+        }
     }
 
     public override void OnDeath()
@@ -84,8 +90,6 @@ public class Enemy : Character
     public virtual void Attack()
     {
         ChangeAnim("attack");
-        ActiveAttack();
-        Invoke(nameof(DeActiveAttack), 0.4f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -93,7 +97,7 @@ public class Enemy : Character
         if(collision.tag == "EnemyWall")
         {
             ChangeState(new PartrolState());
-            this.target = null;
+            this.Target = null;
             ChangeDirection(!isRight);
         }
     }
@@ -106,7 +110,7 @@ public class Enemy : Character
 
     public bool IsTargetInRange()
     {
-        if(Target != null && Vector2.Distance(target.transform.position, transform.position) <= attackRange) 
+        if(Target != null && Vector2.Distance(Target.transform.position, transform.position) <= attackRange) 
         {
 
             return true;
@@ -119,8 +123,8 @@ public class Enemy : Character
 
     internal void SetTarget(Character character)
     {
-        Debug.Log("Da va cham");
-        this.target = character;
+        Debug.LogError("Da va cham");
+        this.Target = character;
         if(IsTargetInRange()) {
             ChangeState(new AttackState());
         }
@@ -135,6 +139,22 @@ public class Enemy : Character
             {
                 ChangeState(new IdleState());
             }
+        }
+    }
+
+    void DrawCircleLine(Vector3 center, float radius, int segments, Color color, float duration)
+    {
+        float angleStep = 360f / segments;
+        Vector3 prevPoint = center + new Vector3(radius, 0, 0); // Bắt đầu từ trục X dương
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = angleStep * i;
+            float rad = angle * Mathf.Deg2Rad;
+
+            Vector3 nextPoint = center + new Vector3(Mathf.Cos(rad) * radius, Mathf.Sin(rad) * radius, 0);
+            Debug.DrawLine(prevPoint, nextPoint, color, duration);
+            prevPoint = nextPoint;
         }
     }
 }

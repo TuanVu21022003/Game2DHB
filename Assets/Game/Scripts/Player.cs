@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character
+public class Player : Character, IAttacker
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LayerMask layerGround;
     [SerializeField] private float speed = 800;
-    
+    [SerializeField] protected GameObject attackArea;
     [SerializeField] private float jumpForce = 400;
     [SerializeField] private Transform kunaiPoint;
     [SerializeField] private Kunai kunaiPrefab;
     
     [SerializeField] private float kunaiDamage = 10;
+    [SerializeField] private float timDelayKunai = 0.5f;
+
     private bool isGrounded;
     private float horizontal;
     private bool isJumping = false;
@@ -23,9 +25,11 @@ public class Player : Character
     private int coin = 0;
     private Vector3 savePoint;
 
-    
+    public Character Target { get; set; }
+
+
     // Start is called before the first frame update
-    
+
 
     // Update is called once per frame
     void Update()
@@ -47,6 +51,17 @@ public class Player : Character
             rb.linearVelocity = Vector2.zero;
             return;
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Attack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Throw();
+        }
+
         if (isGrounded)
         {
             if(isJumping)
@@ -73,21 +88,12 @@ public class Player : Character
                 
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Attack();
-            }
-
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Throw();
-            }
+            
 
         }
-
         else
         {
-            if (rb.linearVelocity.y < 0)
+            if (rb.linearVelocity.y < 0 && !isAttack && !isThrow)
             {
                 isJumping = false;
                 ChangeAnim("fall");
@@ -118,10 +124,6 @@ public class Player : Character
         base.OnDespawn();
         OnInit();
     }
-    public override void OnHit(float damage)
-    {
-        base.OnHit(damage);
-    }
 
     public override void OnDeath()
     {
@@ -135,12 +137,25 @@ public class Player : Character
         return hit.collider != null;
     }
 
-    private void Attack() {
+    public void Attack() {
         isAttack = true;
         ChangeAnim("attack");
         Invoke(nameof(ResetAttack), 0.4f);
         ActiveAttack();
         Invoke(nameof(DeActiveAttack), 0.4f);
+    }
+
+    private void ActiveAttack()
+    {
+        attackArea.SetActive(true);
+        attackArea.GetComponent<Collider2D>().enabled = true;
+    }
+
+    private void DeActiveAttack()
+    {
+        attackArea.SetActive(false);
+        attackArea.GetComponent<Collider2D>().enabled = false;
+
     }
 
     private void ResetAttack()
@@ -152,8 +167,8 @@ public class Player : Character
     {
         isThrow = true;
         ChangeAnim("throw");
-        Invoke(nameof(ResetThrow), 0.4f);
-        Instantiate(kunaiPrefab, kunaiPoint.position, kunaiPoint.rotation).OnInit(this, kunaiDamage);
+        Invoke(nameof(ResetThrow), timDelayKunai);
+        Instantiate(kunaiPrefab, kunaiPoint.position, kunaiPoint.rotation).OnInit(this, this, kunaiDamage);
     }
 
     private void ResetThrow()
@@ -189,5 +204,13 @@ public class Player : Character
     internal void SavePoint()
     {
         savePoint = transform.position;
+    }
+
+    public void ReceiveEnemyReward(EnemyReward[] enemyRewards)
+    {
+        foreach (var reward in enemyRewards)
+        {
+            Debug.LogError($"Received {reward.amount} {reward.type} from enemy.");
+        }
     }
 }

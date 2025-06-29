@@ -17,7 +17,7 @@ public class AttackState : IState
     public void OnExcute(Enemy enemy)
     {
         timer += Time.deltaTime;
-        if(timer >= 1.5f)
+        if(timer >= enemy.timeDelayAttack)
         {
             enemy.ChangeState(new PartrolState());
         }
