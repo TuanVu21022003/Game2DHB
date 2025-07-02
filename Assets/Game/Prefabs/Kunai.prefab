@@ -209,3 +209,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5568692088009282495}
   speedKunai: 5
+  timeDestroy: 2

@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class DeadState : IState
 {
-    public void OnEnter(Enemy enemy)
+    public void OnEnter(EnemyAttack enemy)
     {
         throw new System.NotImplementedException();
     }
 
-    public void OnExcute(Enemy enemy)
+    public void OnExcute(EnemyAttack enemy)
     {
         throw new System.NotImplementedException();
     }
 
-    public void OnExit(Enemy enemy)
+    public void OnExit(EnemyAttack enemy)
     {
         throw new System.NotImplementedException();
     }

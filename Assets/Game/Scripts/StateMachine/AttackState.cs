@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackState : IState
 {
     float timer = 0;
-    public void OnEnter(Enemy enemy)
+    public void OnEnter(EnemyAttack enemy)
     {
         Debug.Log("AttackState");
         enemy.ChangeDirection(enemy.transform.position.x < enemy.Target.transform.position.x);
@@ -14,7 +14,7 @@ public class AttackState : IState
 
     }
 
-    public void OnExcute(Enemy enemy)
+    public void OnExcute(EnemyAttack enemy)
     {
         timer += Time.deltaTime;
         if(timer >= enemy.timeDelayAttack)
@@ -23,7 +23,7 @@ public class AttackState : IState
         }
     }
 
-    public void OnExit(Enemy enemy)
+    public void OnExit(EnemyAttack enemy)
     {
 
     }

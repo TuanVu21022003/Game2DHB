@@ -113,7 +113,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.03, y: 1.63}
+  m_AnchoredPosition: {x: -0.02999878, y: 1.6300049}
   m_SizeDelta: {x: 483, y: 478}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2911361811905485820
@@ -137,7 +137,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!114 &7664804910970079939
 MonoBehaviour:
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageFill: {fileID: 7850867730313494264}
-  offset: {x: 0, y: 2, z: 0}
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &5196025436293907794
 GameObject:
   m_ObjectHideFlags: 0

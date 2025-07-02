@@ -292,7 +292,9 @@ MonoBehaviour:
   - type: 1
     amount: 5
     name: +5
-  timeDelayAttack: 1
+  timeDelayAttack: 4
+  enemyWallPrefab: {fileID: 0}
+  wallRange: 0
   bullet: {fileID: 222011449604131390, guid: 190a474c073a26142800bc0345f15b78, type: 3}
 --- !u!1 &3425556812078751085
 GameObject:
@@ -324,7 +326,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.05, y: 6.05, z: 6.05}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5823514508170636406}

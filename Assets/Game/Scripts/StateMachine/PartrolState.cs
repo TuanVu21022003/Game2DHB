@@ -6,13 +6,13 @@ public class PartrolState : IState
 {
     private float timer;
     private float randomTime;
-    public void OnEnter(Enemy enemy)
+    public void OnEnter(EnemyAttack enemy)
     {
         randomTime = Random.Range(3f, 6f);
         timer = 0;
     }
 
-    public void OnExcute(Enemy enemy)
+    public void OnExcute(EnemyAttack enemy)
     {
         timer += Time.deltaTime;
 
@@ -42,7 +42,7 @@ public class PartrolState : IState
         }
     }
 
-    public void OnExit(Enemy enemy)
+    public void OnExit(EnemyAttack enemy)
     {
 
     }
