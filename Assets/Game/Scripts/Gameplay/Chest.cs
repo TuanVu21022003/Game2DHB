@@ -6,6 +6,15 @@ public class Chest : MonoBehaviour
 
     [SerializeField] private EnemyReward[] itemBaseGameplays;
 
+    private void Start()
+    {
+        OnInit();
+    }
+    public void OnInit()
+    {
+
+    }
+
     public void Open()
     {
         anim.Play("Open");
@@ -15,5 +24,10 @@ public class Chest : MonoBehaviour
     private void HandleWin()
     {
         PopupHubManager.Instance.WinView.Show();
+    }
+
+    public void Active(bool isActive)
+    {
+        gameObject.SetActive(isActive);
     }
 }

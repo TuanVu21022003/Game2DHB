@@ -24,7 +24,6 @@ public class Player : Character, IAttacker
     private bool isJumping = false;
     private bool isAttack = false;
     private bool isThrow = false;
-    private bool isDeath = false;
     private int coin = 0;
     public int Coin
     {
@@ -62,7 +61,11 @@ public class Player : Character, IAttacker
     public override void Start()
     {
         base.Start();
-        PopupHubManager.Instance.GameplayView.OnInit(CountHeart, Coin);
+        if(PopupHubManager.Instance.GameplayView != null)
+        {
+            PopupHubManager.Instance.GameplayView.OnInit(CountHeart, Coin);
+
+        }
     }
 
     // Update is called once per frame
@@ -71,7 +74,7 @@ public class Player : Character, IAttacker
         isGrounded = CheckGround();
         anim.SetFloat("isGround", isGrounded ? 1 : 0);
 
-        //horizontal = Input.GetAxisRaw("Horizontal");
+        horizontal = Input.GetAxisRaw("Horizontal");
         if (isDead)
         {
             return;
@@ -103,13 +106,13 @@ public class Player : Character, IAttacker
 
             }
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             Attack();
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             Throw();
             return;
@@ -146,7 +149,6 @@ public class Player : Character, IAttacker
     public override void OnInit()
     {
         base.OnInit();
-        isDeath = false;
         transform.position = savePoint;
         ChangeAnim("idle");
         DeActiveAttack();
@@ -155,7 +157,7 @@ public class Player : Character, IAttacker
     public override void OnDespawn()
     {
         base.OnDespawn();
-        --CountHeart;
+        
         if (countHeart == 0)
         {
             Debug.LogError("Ban da het mang, game over!");
@@ -168,6 +170,7 @@ public class Player : Character, IAttacker
     public override void OnDeath()
     {
         base.OnDeath();
+        --CountHeart;
     }
 
     private bool CheckGround()
@@ -184,6 +187,7 @@ public class Player : Character, IAttacker
         {
             return;
         }
+        AudioManager.Instance.PlaySFX("Attack");
         isAttack = true;
         ChangeAnim("attack");
         Invoke(nameof(ResetAttack), 0.4f);
@@ -217,6 +221,7 @@ public class Player : Character, IAttacker
         }
         isThrow = true;
         ChangeAnim("throw");
+        AudioManager.Instance.PlaySFX("Throw");
         Invoke(nameof(ResetThrow), timDelayKunai);
         Invoke(nameof(SpawnKunai), 0.2f);
     }
@@ -240,6 +245,7 @@ public class Player : Character, IAttacker
         isJumping = true;
         ChangeAnim("jump");
         rb.AddForce(jumpForce * Vector2.up);
+        AudioManager.Instance.PlaySFX("Jump");
     }
 
 
@@ -260,7 +266,8 @@ public class Player : Character, IAttacker
             hp = 0;
             ChangeAnim("die");
             Debug.Log("Ban da die ");
-            Invoke(nameof(OnInit), 1.5f);
+            OnDeath();
+            Invoke(nameof(OnDespawn), 1f);
         }
         if (collision.tag == "Chest")
         {
@@ -278,7 +285,7 @@ public class Player : Character, IAttacker
     {
         foreach (var reward in enemyRewards)
         {
-            Debug.LogError($"Received {reward.amount} {reward.type} from enemy.");
+            Debug.Log($"Received {reward.amount} {reward.type} from enemy.");
         }
     }
 
@@ -290,6 +297,7 @@ public class Player : Character, IAttacker
                 Coin += itemBase.amount;
                 Debug.Log($"Received {itemBase.amount} gold. Total coins: {coin}");
                 EffectCoin();
+                AudioManager.Instance.PlaySFX("ReceiveCoin");
                 break;
             case ItemType.HP:
                 hp += itemBase.amount * this.maxHp / 100;
@@ -299,6 +307,7 @@ public class Player : Character, IAttacker
                 }
                 healthBar.SetNewHP(hp);
                 EffectHP();
+                AudioManager.Instance.PlaySFX("ReceiveHP");
                 Debug.Log($"Received {itemBase.amount} HP. Current HP: {hp}");
                 break;
         }

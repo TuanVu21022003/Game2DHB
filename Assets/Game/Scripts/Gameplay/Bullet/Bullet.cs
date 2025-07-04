@@ -6,28 +6,29 @@ public class Bullet : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] protected Rigidbody2D rb;
-    [SerializeField] protected float speedKunai = 1.5f;
+    [SerializeField] protected float speed = 1.5f;
     [SerializeField] protected float timeDestroy = 4f;
 
     protected Character characterOwn;
     protected IAttacker attacker;
     private float damage = 0f;
 
-    public void OnInit(Character character, IAttacker attacker, float damage)
+    public virtual void OnInit(Character character, IAttacker attacker, float damage)
     {
-        rb.linearVelocity = transform.right * speedKunai;
+        rb.linearVelocity = transform.right * speed;
         Invoke(nameof(OnDespawn), timeDestroy);
         this.characterOwn = character;
         this.damage = damage;
         this.attacker = attacker;
     }
 
-    public void OnDespawn()
+    public virtual void OnDespawn()
     {
+        
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         Character character = collision.GetComponent<Character>();
         if(character != null && character.CharacterType == characterOwn.CharacterType)
@@ -36,6 +37,8 @@ public class Bullet : MonoBehaviour
         }
         if (collision.tag == "Enemy")
         {
+            AudioManager.Instance.PlaySFX("Hit");
+
             Debug.Log("Bullet da trung");
             
             OnDespawn();
@@ -44,6 +47,8 @@ public class Bullet : MonoBehaviour
         }
         else if (collision.tag == "Player")
         {
+            AudioManager.Instance.PlaySFX("Hit");
+
             OnDespawn();
             collision.GetComponent<IHit>().OnHit(damage, characterOwn);
         }

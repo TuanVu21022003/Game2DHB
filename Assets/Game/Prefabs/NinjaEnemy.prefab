@@ -138,7 +138,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1366822359554035561}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
+  rb: {fileID: 1490462011668944538}
   anim: {fileID: 6234064381359372328}
   hitVFX: {fileID: 4905656722424055453, guid: d7ec138257f69554c8d0260db4a94d29, type: 3}
   combatTextPrefab: {fileID: 7197259282544986794, guid: 2ef1f2d5d781c644e9b70ed617669e0a, type: 3}
@@ -177,12 +178,12 @@ MonoBehaviour:
   maxHp: 100
   healthBarPrefab: {fileID: 7284295804984542851, guid: 2690faa7ecb4fb84f97d85b30289b1d8, type: 3}
   rewards:
-  - type: 1
+  - type: 2
     amount: 10
-    name: +10
+  - type: 1
+    amount: 5
   attackRange: 2
   moveSpeed: 3
-  rb: {fileID: 1490462011668944538}
   timeDelayAttack: 1
   enemyWallPrefab: {fileID: 6425579217093942582, guid: 00d100afa6a1b8e45afe4e671b969e0e, type: 3}
   wallRange: 4

@@ -8,7 +8,7 @@ public class PursueBullet : Bullet
         if(attacker.Target && isPursuing)
         {
             Vector3 direction = (attacker.Target.transform.position - transform.position).normalized;
-            rb.linearVelocity = direction * speedKunai;
+            rb.linearVelocity = direction * speed;
             // Tính góc xoay
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 

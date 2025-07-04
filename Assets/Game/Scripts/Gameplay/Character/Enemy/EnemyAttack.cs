@@ -23,7 +23,7 @@ public class EnemyAttack : EnemyBase, IAttacker
 
     private void Update()
     {
-        DrawCircleLine(transform.position, attackRange, 50, Color.red, Time.deltaTime);
+        HelperUtils.DrawCircleLine(transform.position, attackRange, 50, Color.red, Time.deltaTime);
         if (isDead) return;
         if (currentState != null)
         {
@@ -86,6 +86,7 @@ public class EnemyAttack : EnemyBase, IAttacker
     {
         if(Target == null) return;
         if(Target.isDead) return;
+        AudioManager.Instance.PlaySFX("Attack");
         ChangeAnim("attack");
     }
 
@@ -93,8 +94,12 @@ public class EnemyAttack : EnemyBase, IAttacker
     {
         if (collision.tag == "EnemyWall")
         {
-            ChangeState(new PartrolState());
+            if(currentState is AttackState)
+            {
+                return;
+            }
             this.Target = null;
+            ChangeState(new PartrolState());
             ChangeDirection(!isRight);
         }
     }
@@ -120,7 +125,6 @@ public class EnemyAttack : EnemyBase, IAttacker
 
     internal void SetTarget(Character character)
     {
-        Debug.LogError("Da va cham");
         this.Target = character;
         if (IsTargetInRange())
         {
@@ -140,19 +144,5 @@ public class EnemyAttack : EnemyBase, IAttacker
         }
     }
 
-    void DrawCircleLine(Vector3 center, float radius, int segments, Color color, float duration)
-    {
-        float angleStep = 360f / segments;
-        Vector3 prevPoint = center + new Vector3(radius, 0, 0); // Bắt đầu từ trục X dương
-
-        for (int i = 1; i <= segments; i++)
-        {
-            float angle = angleStep * i;
-            float rad = angle * Mathf.Deg2Rad;
-
-            Vector3 nextPoint = center + new Vector3(Mathf.Cos(rad) * radius, Mathf.Sin(rad) * radius, 0);
-            Debug.DrawLine(prevPoint, nextPoint, color, duration);
-            prevPoint = nextPoint;
-        }
-    }  
+     
 }

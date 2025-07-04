@@ -19,13 +19,13 @@ public class EnemyBase : Character
         base.OnDespawn();
         Destroy(gameObject);
         Destroy(healthBar.gameObject);
-        Debug.LogError(GameManager.Instance.CheckIsEnemyExist());
     }
 
     public override void OnDeath()
     {
         base.OnDeath();
         collider.enabled = false; // Disable collider to prevent further interactions
+        GameManager.Instance.CheckIsEnemyExist();
     }
 
     private void OnSpawnItemBase(Transform attacker)

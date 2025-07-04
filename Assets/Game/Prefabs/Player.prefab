@@ -5232,7 +5232,7 @@ MonoBehaviour:
   jumpForce: 400
   kunaiPoint: {fileID: 4486378673670830669}
   kunaiPrefab: {fileID: 8374704510427810024, guid: d04bdb63a5d50a546a663d4512026b4e, type: 3}
-  kunaiDamage: 100
+  kunaiDamage: 10
   timDelayKunai: 0.5
   coinEffect: {fileID: 3978858293144686390}
   hpEffect: {fileID: 4169315318802360466}

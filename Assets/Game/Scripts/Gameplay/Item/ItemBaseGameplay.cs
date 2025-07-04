@@ -39,6 +39,7 @@ public class ItemBaseGameplay : MonoBehaviour
         {
             StopCoroutine(effectCoroutine);
         }
+        AudioManager.Instance.PlaySFX("FlyItem");
         effectCoroutine = StartCoroutine(MoveItem(target, duration));
     }
 

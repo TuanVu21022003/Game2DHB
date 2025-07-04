@@ -9,6 +9,7 @@ TagManager:
   - EnemyWall
   - Item
   - Chest
+  - Ground
   layers:
   - Default
   - TransparentFX

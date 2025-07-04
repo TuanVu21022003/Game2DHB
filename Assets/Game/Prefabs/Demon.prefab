@@ -279,22 +279,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
+  rb: {fileID: 7511744003733056160}
   anim: {fileID: 299958549453147406}
   hitVFX: {fileID: 4905656722424055453, guid: d7ec138257f69554c8d0260db4a94d29, type: 3}
   combatTextPrefab: {fileID: 7197259282544986794, guid: 2ef1f2d5d781c644e9b70ed617669e0a, type: 3}
   damage: 10
   maxHp: 50
   healthBarPrefab: {fileID: 7284295804984542851, guid: 2690faa7ecb4fb84f97d85b30289b1d8, type: 3}
-  attackRange: 6
-  moveSpeed: 2
-  rb: {fileID: 7511744003733056160}
   rewards:
   - type: 1
     amount: 5
-    name: +5
+  attackRange: 6
+  moveSpeed: 2
   timeDelayAttack: 4
-  enemyWallPrefab: {fileID: 0}
-  wallRange: 0
+  enemyWallPrefab: {fileID: 6425579217093942582, guid: 00d100afa6a1b8e45afe4e671b969e0e, type: 3}
+  wallRange: 2
   bullet: {fileID: 222011449604131390, guid: 190a474c073a26142800bc0345f15b78, type: 3}
 --- !u!1 &3425556812078751085
 GameObject:

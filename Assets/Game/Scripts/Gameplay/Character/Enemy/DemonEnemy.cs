@@ -16,6 +16,6 @@ public class DemonEnemy : EnemyAttack
     public override void OnHit(float damage, Character attacker, UnityAction<EnemyReward[]> actionDeath)
     {
         base.OnHit(damage, attacker, actionDeath);
-        ChangeAnim("hit");
+        ChangeAnim("hurt");
     }
 }

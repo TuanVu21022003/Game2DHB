@@ -12,7 +12,7 @@ public class Character : MonoBehaviour, IHit
     [SerializeField] protected Animator anim;
     [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected CombatText combatTextPrefab;
-    
+
     [SerializeField] protected float damage;
     [SerializeField] protected float maxHp;
     [SerializeField] protected HealthBar healthBarPrefab;
@@ -21,13 +21,13 @@ public class Character : MonoBehaviour, IHit
     // Start is called before the first frame update
     protected float hp;
     private string currentAnim;
-    protected Collider2D collider;
+    protected new CapsuleCollider2D collider;
 
     public bool isDead => hp <= 0;
     public virtual void Start()
     {
+        collider = GetComponent<CapsuleCollider2D>();
         OnInit();
-        collider = GetComponent<Collider2D>();
     }
 
     public virtual void OnInit()
@@ -35,6 +35,7 @@ public class Character : MonoBehaviour, IHit
         healthBar = Instantiate(healthBarPrefab);
         hp = maxHp;
         healthBar.OnInit(maxHp, transform, characterType);
+        Debug.LogError("Height of character: " + GetHeight());
     }
 
     public virtual void OnDespawn()
@@ -46,22 +47,22 @@ public class Character : MonoBehaviour, IHit
     {
         Debug.Log("Nhan vat da chet");
         ChangeAnim("die");
-
+        AudioManager.Instance.PlaySFX("Die");
         rb.linearVelocity = Vector2.zero;
         Invoke(nameof(OnDespawn), 1f);
     }
 
     public virtual void OnHit(float damage, Character attacker, UnityAction<EnemyReward[]> actionDeath)
     {
-        if(!isDead)
+        if (!isDead)
         {
             hp -= damage;
-            if(isDead)
+            if (isDead)
             {
                 hp = 0;
                 OnDeath();
             }
-            
+
             healthBar.SetNewHP(hp);
             Instantiate(combatTextPrefab, transform.position + Vector3.up * 2, Quaternion.identity).OnInit(damage);
             EffectDamage();
@@ -73,7 +74,7 @@ public class Character : MonoBehaviour, IHit
         Instantiate(hitVFX, transform.position, transform.rotation);
     }
 
-    protected void ChangeAnim(string animname)
+    public void ChangeAnim(string animname)
     {
         if (currentAnim != animname)
         {
@@ -81,6 +82,20 @@ public class Character : MonoBehaviour, IHit
             currentAnim = animname;
             anim.SetTrigger(currentAnim);
         }
+    }
+
+    public float GetHeight()
+    {
+        if (collider != null)
+        {
+            return collider.size.y * transform.localScale.y;
+        }
+        else
+        {
+            Debug.LogWarning("Collider is not assigned on " + gameObject.name);
+            return 0;
+        }
+
     }
 }
 
