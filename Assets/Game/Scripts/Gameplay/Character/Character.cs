@@ -35,7 +35,6 @@ public class Character : MonoBehaviour, IHit
         healthBar = Instantiate(healthBarPrefab);
         hp = maxHp;
         healthBar.OnInit(maxHp, transform, characterType);
-        Debug.LogError("Height of character: " + GetHeight());
     }
 
     public virtual void OnDespawn()

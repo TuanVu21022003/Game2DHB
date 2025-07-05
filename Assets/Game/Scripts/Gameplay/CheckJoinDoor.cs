@@ -15,7 +15,7 @@ public class CheckJoinDoor : MonoBehaviour
             door.OnUp();
             Player player = collision.GetComponent<Player>();
             player.SavePoint();
-            GameManager.Instance.SpawnBoss(player);
+            GameManager.Instance.Map.SpawnBoss(player);
             collider2D.enabled = false; // Disable the collider to prevent further triggers
         }
     }

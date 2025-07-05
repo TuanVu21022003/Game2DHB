@@ -3,38 +3,36 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] public GameplayScriptable GameplayData;
-    [SerializeField] private Transform listEnemy;
-    [SerializeField] private Door door;
-    [SerializeField] private Transform posSpawnBoss;
-
-    private Boss boss;
-
+    public MapController Map;
+    public Player Player;
+    public CameraFollow CameraFollow;
     private void Start()
     {
         AudioManager.Instance.PlayMusic("MainTheme");
-    }
-
-    public bool CheckIsEnemyExist()
-    {
-        if (listEnemy == null)
+        SpawnMap();
+        SpawnPlayer();
+        TouchManager.Instance.Active(true);
+        CameraFollow = FindObjectOfType<CameraFollow>();
+        if (CameraFollow != null)
         {
-            Debug.LogError("List Enemy is null");
-            return false;
+            CameraFollow.SetTarget(Player.transform);
         }
-        Debug.LogError(listEnemy.childCount);
-        if (listEnemy.childCount > 1) return true;
-        door.OnDown();
-        return false;
     }
 
-    public void SpawnBoss(Character player)
+    private void SpawnMap()
     {
-        boss = Instantiate(GameplayData.BossPrefab, posSpawnBoss.position, Quaternion.identity);
-        boss.SetPlayer(player.transform);
+        MapController mapPrefab = Resources.Load<MapController>($"Maps/Map_{GameConstants.Level}");
+        Map = Instantiate(mapPrefab, Vector3.zero, Quaternion.identity);
     }
 
-    public void SpawnChest(Vector3 pos)
+    private void SpawnPlayer()
     {
-        Chest chest = Instantiate(GameplayData.ChestPrefab, pos, Quaternion.identity);
+        Player playerPrefab = GameplayData.PlayerPrefab;
+        if (playerPrefab == null)
+        {
+            Debug.LogError("Player prefab is not set in GameplayData");
+            return;
+        }
+        Player = Instantiate(playerPrefab, Map.posPlayer.position, Quaternion.identity);
     }
 }

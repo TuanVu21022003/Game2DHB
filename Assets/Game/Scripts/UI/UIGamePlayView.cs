@@ -13,7 +13,7 @@ public class UIGamePlayView : UIBaseView
 
     public void OnInit(int heartCount, int coin)
     {
-        for(int i = 0; i < heartCount; i++)
+        for (int i = 0; i < heartCount; i++)
         {
             HeartItemUI heartItemUI = Instantiate(heartItemUIPrefab, heartParent);
             listHeart.Add(heartItemUI);
@@ -25,7 +25,7 @@ public class UIGamePlayView : UIBaseView
     public override void Show()
     {
         base.Show();
-        
+
     }
 
     public void UpdateCoin(int coin)

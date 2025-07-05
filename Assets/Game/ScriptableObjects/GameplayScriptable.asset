@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3966e0b76cfac554f8260aca0fde45e9, type: 3}
   m_Name: GameplayScriptable
   m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 2943664006426785335, guid: 57d833d958696e948b270437baa47813, type: 3}
   CoinPrefab: {fileID: 1811865947456321286, guid: 748857e793ebc0442a56133925c0bfc0, type: 3}
   HPPrefab: {fileID: 350047855089844756, guid: e6a9c6deda41e274e8bac9bd48439c87, type: 3}
   BossPrefab: {fileID: 6839184861009656834, guid: 0b1012735fdd0f44083e34a555a2221a, type: 3}

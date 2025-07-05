@@ -25,7 +25,7 @@ public class EnemyBase : Character
     {
         base.OnDeath();
         collider.enabled = false; // Disable collider to prevent further interactions
-        GameManager.Instance.CheckIsEnemyExist();
+        GameManager.Instance.Map.CheckIsEnemyExist();
     }
 
     private void OnSpawnItemBase(Transform attacker)

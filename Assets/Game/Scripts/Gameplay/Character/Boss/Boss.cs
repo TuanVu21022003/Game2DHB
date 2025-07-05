@@ -185,7 +185,7 @@ public class Boss : EnemyBase, IAttacker
         base.OnDeath();
         StopMoving();
         ChangeAnim("die");
-        GameManager.Instance.SpawnChest(transform.position); // Kích hoạt rương khi boss chết
+        GameManager.Instance.Map.SpawnChest(transform.position); // Kích hoạt rương khi boss chết
         rb.bodyType = RigidbodyType2D.Kinematic; // Đặt Rigidbody thành Static để không bị ảnh hưởng bởi vật lý khi chết
     }
 

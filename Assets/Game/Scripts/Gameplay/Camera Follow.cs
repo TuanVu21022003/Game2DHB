@@ -9,14 +9,23 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float speed = 5;
 
     // Start is called before the first frame update  
-    void Start()
+    //void Start()
+    //{
+    //    target = Object.FindFirstObjectByType<Player>().transform;
+    //}
+
+    public void SetTarget(Transform newTarget)
     {
-        target = Object.FindFirstObjectByType<Player>().transform;
+        target = newTarget;
     }
 
     // Update is called once per frame  
     void LateUpdate()
     {
+        if(target == null)
+        {
+            return;
+        }
         transform.position = Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * speed);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameplayScriptable", menuName = "Game/GameplayScriptable")]
 public class GameplayScriptable : ScriptableObject
 {
+    public Player PlayerPrefab;
     public ItemBaseGameplay CoinPrefab;
     public ItemHPGameplay HPPrefab;
     public Boss BossPrefab;

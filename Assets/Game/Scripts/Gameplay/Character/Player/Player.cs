@@ -74,7 +74,7 @@ public class Player : Character, IAttacker
         isGrounded = CheckGround();
         anim.SetFloat("isGround", isGrounded ? 1 : 0);
 
-        horizontal = Input.GetAxisRaw("Horizontal");
+        //horizontal = Input.GetAxisRaw("Horizontal");
         if (isDead)
         {
             return;
